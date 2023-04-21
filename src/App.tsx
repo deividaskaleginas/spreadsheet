@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import {
+  CellFunctions,
+  RestructuredList,
   SheetData,
   SpreadSheetResponse,
   SpreadSheetStructure,
@@ -9,6 +11,7 @@ import { alphabet } from "./utils/alphabet";
 
 function App() {
   const [data, setData] = useState<SheetData[]>([]);
+  const [restructuredData, setRestructuredData] = useState<SheetData[]>([]);
   const [filteredSheet, setFilteredSheet] = useState<
     Array<SpreadSheetStructure[]> | undefined
   >(undefined);
@@ -31,89 +34,251 @@ function App() {
     getData();
   }, []);
 
-  console.log(data);
-
-  // const restructureData = () => {
-  //   const restructuredData = data.map((sheetData) => {
-  //     sheetData.data.map((dataValue) =>
-  //       dataValue.map((element, index) => ({
-  //         [`${alphabet[index]}1`]: element,
-  //       }))
-  //     );
-  //   });
-  // };
-
-  // restructureData();
-
-  const handleSheetClick = (sheetId: string) => {
-    const filteredSheet: SheetData | undefined = data.find(
-      ({ id }) => id === sheetId
-    );
-    if (filteredSheet !== undefined) {
-      const restructuredList = filteredSheet.data.map((item, i) =>
-        item.map((element, index) => ({
-          [`${alphabet[index]}${i + 1}`]: element,
-        }))
-      );
-      console.log(filteredSheet);
-      console.log(restructuredList);
-      // setFilteredSheet(restructuredList);
-      // filterRestructuredListFunction(restructuredList);
+  const restructureData = () => {
+    if (data !== undefined) {
+      const restructData = data.map((sheetData) => ({
+        id: sheetData.id,
+        data: sheetData.data.map((item, i) =>
+          item.map((element, index) => ({
+            [`${alphabet[index]}${i + 1}`]: element,
+          }))
+        ),
+      }));
+      console.log(restructData);
+    } else {
+      console.log("Data undefined");
     }
   };
 
-  const filterRestructuredListFunction = (
-    restructuredList: { [x: string]: string | number | boolean }[][]
-  ) => {
-    const dataValues: object[] = [];
-    let functionData: object[] = [];
-    restructuredList.map((obj) =>
-      obj.map((object) => {
-        if (Object.values(object).toString().includes("=SUM")) {
-          functionData.push(object);
-        } else {
-          dataValues.push(object);
-        }
-      })
-    );
-    destructureFunction(functionData);
-  };
+  restructureData();
 
-  const destructureFunction = (functionData: object[]) => {
-    const func = functionData.map((funct) => Object.values(funct));
+  // const handleSheetClick = (sheetId: string) => {
+  //   const filteredSheet: SheetData | undefined = data.find(
+  //     ({ id }) => id === sheetId
+  //   );
+  //   if (filteredSheet !== undefined) {
+  //     const restructuredList = filteredSheet.data.map((item, i) =>
+  //       item.map((element, index) => ({
+  //         [`${alphabet[index]}${i + 1}`]: element,
+  //       }))
+  //     );
+  //     console.log(filteredSheet);
+  //     console.log(restructuredList);
+  //     setFilteredSheet(restructuredList);
+  //     filterRestructuredListFunction(restructuredList);
+  //   }
+  // };
 
-    const removeFuncTitle = func[0][0]
-      .trim()
-      .replace("=SUM", "")
-      .replaceAll(" ", "");
-    const removeBrackets = removeFuncTitle.replace("(", "").replace(")", "");
-    const convertedToArray = removeBrackets.split(",");
-    replaceStringsWithData(convertedToArray);
-  };
+  // const filterRestructuredListFunction = (
+  //   restructuredList: RestructuredList
+  // ) => {
+  //   const dataValues: object[] = [];
+  //   let functionData: object[] = [];
+  //   let concatData: object[] = [];
+  //   restructuredList.map((obj) =>
+  //     obj.map((object) => {
+  //       // if (Object.values(object).toString().includes(CellFunctions.SUM)) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=MULTIPLY")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=DIVIDE")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=GT")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=EQ")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       if (Object.values(object).toString().includes("=NOT")) {
+  //         functionData.push(object);
+  //       }
+  //       // if (Object.values(object).toString().includes("=AND")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=OR")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       // if (Object.values(object).toString().includes("=CONCAT")) {
+  //       //   functionData.push(object);
+  //       // }
+  //       else {
+  //         dataValues.push(object);
+  //       }
+  //     })
+  //   );
+  //   // concatStrings(concatData);
+  //   console.log(dataValues);
+  //   console.log(functionData);
 
-  const replaceStringsWithData = (convertedToArray: string[]) => {
-    console.log(convertedToArray);
-    convertedToArray.map((item) =>
-      filteredSheet?.map((sheet) =>
-        sheet.map((obj) => {
-          if (Object.keys(obj).toString() == item) {
-            const index = convertedToArray.indexOf(item);
-            convertedToArray[index] = Object.values(obj).toString();
-          }
-          calculateSum(convertedToArray);
-        })
-      )
-    );
-  };
+  //   destructureFunction(functionData);
+  // };
 
-  const calculateSum = (convertedToArray: string[]) => {
-    const valuesToNumbers = convertedToArray.map((value) => {
-      return Number(value);
-    });
+  // const concatStrings = (concatData: object[]) => {
+  //   const str = concatData.map((string) => Object.values(string));
+  //   str.map((string) => {
+  //     const removeFuncTitle = string[0]
+  //       .replace("=CONCAT", "")
+  //       .replaceAll('"', "")
+  //       .replaceAll("(", "")
+  //       .replaceAll(")", "");
 
-    const sum = valuesToNumbers.reduce((a, b) => a + b);
-    console.log(sum);
-  };
+  //     const convertedToArray = removeFuncTitle.split(",");
+  //     console.log(convertedToArray);
+  //   });
+  // };
+
+  // const destructureFunction = (functionData: object[]) => {
+  //   const func = functionData.map((funct) => Object.values(funct));
+  //   func.forEach((element) => {
+  //     const removeFuncTitle = element[0]
+  //       .trim()
+  //       // .replace(CellFunctions.SUM, "")
+  //       // .replace("=MULTIPLY", "")
+  //       // .replace("=DIVIDE", "")
+  //       // .replace("=GT", "")
+  //       // .replace("=EQ", "")
+  //       .replace("=NOT", "")
+  //       // .replace("=AND", "")
+  //       // .replace("=OR", "")
+  //       // .replace("=CONCAT", "")
+
+  //       .replaceAll(" ", "")
+  //       .replaceAll('"', "");
+  //     const removeBrackets = removeFuncTitle
+  //       .replaceAll("(", "")
+  //       .replaceAll(")", "");
+  //     const convertedToArray = removeBrackets.split(",");
+  //     console.log(convertedToArray);
+  //     replaceStringsWithData(convertedToArray);
+  //   });
+  // };
+
+  // // const replacePositionsWithData = (dataValues: object[]) => {
+  // //   dataValues.map((item) =>
+  // //     filteredSheet?.map((sheet) =>
+  // //       sheet.map((obj) => {
+  // //         console.log(item);
+  // //         // if (Object.keys(obj).toString() == item) {
+
+  // //         // }
+  // //       })
+  // //     )
+  // //   );
+  // // };
+
+  // const replaceStringsWithData = (convertedToArray: string[]) => {
+  //   convertedToArray.map((item) =>
+  //     filteredSheet?.map((sheet) =>
+  //       sheet.map((obj) => {
+  //         if (Object.keys(obj).toString() === item) {
+  //           const index = convertedToArray.indexOf(item);
+  //           convertedToArray[index] = Object.values(obj).toString();
+  //         }
+  //         // calculateSum(convertedToArray);
+  //         // multiply(convertedToArray);
+  //         // divide(convertedToArray);
+  //         // isGreater(convertedToArray);
+  //         // isEqual(convertedToArray);
+  //         negateBooleanValue(convertedToArray);
+  //         // allAreTrue(convertedToArray);
+  //         // onlyOneAreTrue(convertedToArray);
+  //         // concat(convertedToArray);
+  //       })
+  //     )
+  //   );
+  // };
+
+  // const calculateSum = (convertedToArray: string[]) => {
+  //   const valuesToNumbers = convertedToArray.map((value) => {
+  //     return Number(value);
+  //   });
+
+  //   const sum = valuesToNumbers.reduce((a, b) => a + b);
+  //   console.log(sum);
+  // };
+
+  // const multiply = (convertedToArray: string[]) => {
+  //   const valuesToNumbers = convertedToArray.map((value) => {
+  //     return Number(value);
+  //   });
+
+  //   const sum = valuesToNumbers.reduce((a, b) => a * b);
+  //   console.log(sum);
+  // };
+  // const divide = (convertedToArray: string[]) => {
+  //   const valuesToNumbers = convertedToArray.map((value) => {
+  //     return Number(value);
+  //   });
+
+  //   const sum = valuesToNumbers.reduce((a, b) => a / b);
+  //   console.log(sum);
+  // };
+  // const isGreater = (convertedToArray: string[]) => {
+  //   const valuesToNumbers = convertedToArray.map((value) => {
+  //     return Number(value);
+  //   });
+
+  //   if (valuesToNumbers[0] > valuesToNumbers[1]) {
+  //     console.log(true);
+  //   } else {
+  //     console.log(false);
+  //   }
+  // };
+  // const isEqual = (convertedToArray: string[]) => {
+  //   const valuesToNumbers = convertedToArray.map((value) => {
+  //     return Number(value);
+  //   });
+
+  //   if (valuesToNumbers[0] === valuesToNumbers[1]) {
+  //     console.log(true);
+  //   } else {
+  //     console.log(false);
+  //   }
+  // };
+
+  // const negateBooleanValue = (convertedToArray: string[]) => {
+  //   const valuesToBoolean = convertedToArray.map((value) => {
+  //     if (value === "true") {
+  //       console.log(false);
+  //     } else if (value === "false") {
+  //       console.log(true);
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   });
+  // };
+
+  // const allAreTrue = (convertedToArray: string[]) => {
+  //   const values = convertedToArray.map((value) => {
+  //     if (value === "true") {
+  //       return true;
+  //     } else if (value === "false") {
+  //       return false;
+  //     } else {
+  //       return Number(value);
+  //     }
+  //   });
+  //   console.log(values.every((element) => element == true));
+  // };
+  // const onlyOneAreTrue = (convertedToArray: string[]) => {
+  //   const values = convertedToArray.map((value) => {
+  //     if (value === "true") {
+  //       return true;
+  //     } else if (value === "false") {
+  //       return false;
+  //     } else {
+  //       return Number(value);
+  //     }
+  //   });
+  //   console.log(values.some((element) => element == true));
+  // };
+
+  // const concat = (convertedToArray: string[]) => {
+  //   console.log(convertedToArray.join(" "));
+  // };
 
   return (
     <>
