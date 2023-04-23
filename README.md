@@ -7,7 +7,7 @@ Created a React project to complete the assignment. Docs of the task: https://gi
 - email: deividas.kaleginas@gmail.com
 - password: 75734839e1b0f950d456430bbbb50979
 
-## Link to my RESUME :rocket: :
+## Visit my RESUME :rocket: 
 
 Thank you for the assignment, which was interesting and valuable experience! 
 
