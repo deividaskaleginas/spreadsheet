@@ -1,11 +1,19 @@
-# Wix-grow task 
+# Wix-grow task :nerd_face:
 
 Created a React project to complete the assignment. Docs of the task: https://github.com/wix-incubator/wix-grow/blob/main/Technical%20task/Task.pdf 
 
-## Results
+## Results :checkered_flag:	
 
-email: deividas.kaleginas@gmail.com
-password: 75734839e1b0f950d456430bbbb50979
+- email: deividas.kaleginas@gmail.com
+- password: 75734839e1b0f950d456430bbbb50979
+
+## Link to my RESUME :rocket: :
+
+Thank you for the assignment, which was interesting and valuable experience! 
+
+I'm extremely motivated to learn more and looking forward to hearing from you.
+
+You can find my resume here: https://deividaskaleginas.github.io/resume/ 
 
 ## Getting Started with Create React App
 
