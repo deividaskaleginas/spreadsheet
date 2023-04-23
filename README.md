@@ -1,4 +1,13 @@
-# Getting Started with Create React App
+# Wix-grow task 
+
+Created a React project to complete the assignment. Docs of the task: https://github.com/wix-incubator/wix-grow/blob/main/Technical%20task/Task.pdf 
+
+## Results
+
+email: deividas.kaleginas@gmail.com
+password: 75734839e1b0f950d456430bbbb50979
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
