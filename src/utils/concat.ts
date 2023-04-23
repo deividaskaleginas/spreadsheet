@@ -1,4 +1,9 @@
-import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
+import {
+  CellFunctions,
+  CellTypes,
+  ErrorMessage,
+  Sheet,
+} from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
@@ -26,5 +31,5 @@ export const concat = (sheet: Sheet, cellValue: ConcatParams) => {
     concated = valuesArray?.join("");
   }
 
-  return concated;
+  return concated || ErrorMessage.COMMON;
 };

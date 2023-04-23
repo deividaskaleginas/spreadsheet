@@ -1,14 +1,10 @@
-import { CellTypes, Sheet } from "../types/dataTypes";
-
-type FillParams = {
-  [x: string]: CellTypes;
-};
+import { CellObject, CellTypes, Sheet } from "../types/dataTypes";
 
 type CellStringType = {
   [x: string]: string;
 };
 
-export const fillColumnWithData = (sheet: Sheet, cellValue: FillParams) => {
+export const fillColumnWithData = (sheet: Sheet, cellValue: CellObject) => {
   const sheetDataListsJoined = sheet.data.flat(
     1
   ) as unknown as CellStringType[];
@@ -26,12 +22,17 @@ export const fillColumnWithData = (sheet: Sheet, cellValue: FillParams) => {
     const keys = arr.map((obj) => Object.keys(obj)[0]);
     return arr.map((obj) => {
       const key = Object.keys(obj)[0];
-      let value = obj[key];
-      while (keys.includes(value)) {
-        //   @ts-ignore
-        value = arr.find((o) => o.hasOwnProperty(value))[value];
+      let objectValue = obj[key];
+      while (keys.includes(objectValue)) {
+        // eslint-disable-next-line no-loop-func
+        const checkIfKeyHasValue = arr.find((o) =>
+          o.hasOwnProperty(objectValue)
+        );
+        if (checkIfKeyHasValue) {
+          objectValue = checkIfKeyHasValue[objectValue];
+        }
       }
-      return { [key]: value };
+      return { [key]: objectValue };
     });
   };
 
@@ -39,9 +40,13 @@ export const fillColumnWithData = (sheet: Sheet, cellValue: FillParams) => {
     removedEqualsFromObjectValues
   );
 
-  const allValuesInOneObject = Object.assign({}, ...replacedValuesOfSheetData);
+  const allValuesInOneObject: CellObject = Object.assign(
+    {},
+    ...replacedValuesOfSheetData
+  );
 
-  const cellValueReplaced = allValuesInOneObject[Object.keys(cellValue)[0]];
+  const cellValueReplaced: CellTypes =
+    allValuesInOneObject[Object.keys(cellValue)[0]];
 
   return cellValueReplaced;
 };

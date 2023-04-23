@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { CellTypes } from "../../types/dataTypes";
 import { alphabet } from "../../utils/alphabet";
 import "./ResultsBlockStyles.css";
@@ -16,48 +16,40 @@ export const ResultsBlock: FC<ResultsBlockProps> = ({ data }) => {
   return (
     <div>
       <div className="row">
-        <div className="columnNumber"></div>
+        <div className="columnNumber" />
         <div className="rowHeaterDiv">
-          {alphabet?.map((alphabet, index) => {
-            return (
-              <div key={index} className="rowHeaderCell cell">
-                {alphabet}
-              </div>
-            );
-          })}
+          {alphabet?.map((alphabet, index) => (
+            <div key={index} className="rowHeaderCell cell">
+              {alphabet}
+            </div>
+          ))}
         </div>
       </div>
       <div className="row">
         <div>
-          {columns?.map((colums, index) => {
-            return (
-              <>
-                <div key={index + 1} className="columnNumber">
-                  <span className="numbers">{index + 1}</span>
-                </div>
-              </>
-            );
-          })}
+          {columns?.map((_, index) => (
+            <div key={index + 1} className="columnNumber">
+              <span className="numbers">{index + 1}</span>
+            </div>
+          ))}
         </div>
         <div>
-          {data?.map((cell, index) => {
-            return (
-              <div key={index + 2} className="flexWrapper">
-                {cell.map((item, index) => (
-                  <div key={index} className="cell borderBottom">
-                    {item.toString()}
-                  </div>
-                ))}
-                {[...Array(alphabet.length - cell.length)].map((div, index) => (
-                  <div key={index} className="cell borderBottom"></div>
-                ))}
-              </div>
-            );
-          })}
-          {[...Array(cellsNumber + 1)].map((div, index) => (
+          {data?.map((cell, index) => (
+            <div key={index + 2} className="flexWrapper">
+              {cell.map((item, index) => (
+                <div key={index} className="cell borderBottom">
+                  {item.toString()}
+                </div>
+              ))}
+              {[...Array(alphabet.length - cell.length)].map((_, index) => (
+                <div key={index} className="cell borderBottom" />
+              ))}
+            </div>
+          ))}
+          {[...Array(cellsNumber + 1)].map((_, index) => (
             <div key={index + 3} className="flexWrapper">
-              {[...Array(alphabet.length)].map((div, index) => (
-                <div key={index} className="cell borderBottom"></div>
+              {[...Array(alphabet.length)].map((_, index) => (
+                <div key={index} className="cell borderBottom" />
               ))}
             </div>
           ))}

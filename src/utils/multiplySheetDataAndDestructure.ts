@@ -1,15 +1,16 @@
-import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
+import {
+  CellFunctions,
+  CellObject,
+  CellTypes,
+  Sheet,
+} from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type MultiplyParams = {
-  [x: string]: CellTypes;
-};
-
 export const multiplySheetDataValues = (
   sheet: Sheet,
-  cellValue: MultiplyParams
-) => {
+  cellValue: CellObject
+): CellTypes => {
   const sheetDataListsJoined = sheet.data.flat(1);
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),

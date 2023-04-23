@@ -1,15 +1,11 @@
-import { CellFunctions, CellTypes } from "../types/dataTypes";
+import { CellFunctions, CellObject } from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type GTParams = {
-  [x: string]: CellTypes;
-};
-
 export const checkIfIsGreaterThanSecond = (
-  cellsToCheck: GTParams[],
-  cellValue: GTParams
-) => {
+  cellsToCheck: CellObject[],
+  cellValue: CellObject
+): boolean => {
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),
     CellFunctions.GT

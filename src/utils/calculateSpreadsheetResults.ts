@@ -1,4 +1,4 @@
-import { CellFunctions, Sheet } from "../types/dataTypes";
+import { CellFunctions, Sheet, SheetData } from "../types/dataTypes";
 import { calculateSumAndDestructureSheet } from "./calculateSum";
 import { checkConditionals } from "./checkConditionals";
 import { checkIfAllParametersAreTrue } from "./checkIfAllParametersAreTrue";
@@ -11,11 +11,10 @@ import { fillColumnWithData } from "./fillColumnWithData";
 import { multiplySheetDataValues } from "./multiplySheetDataAndDestructure";
 import { negateBooleanValue } from "./negateBooleanValue";
 
-export const calculateSpreadSheetResults = (sheetData: Sheet) => {
+export const calculateSpreadSheetResults = (sheetData: Sheet): SheetData => {
   const cellFunctionsApplied = sheetData.data.map((dataArray) =>
     dataArray.map((cellValue) => {
-      const value = Object.values(cellValue);
-      //Removed to string from objectValuesList
+      const cellObjectValue = Object.values(cellValue);
       const objectValuesList = Object.values(cellValue).toString();
       if (objectValuesList.includes(CellFunctions.MULTIPLY)) {
         return multiplySheetDataValues(sheetData, cellValue);
@@ -40,7 +39,7 @@ export const calculateSpreadSheetResults = (sheetData: Sheet) => {
       } else if (objectValuesList.includes("=")) {
         return fillColumnWithData(sheetData, cellValue);
       } else {
-        return value[0];
+        return cellObjectValue[0];
       }
     })
   );

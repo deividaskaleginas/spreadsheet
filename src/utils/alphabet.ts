@@ -1,4 +1,4 @@
-export const alphabet = [
+export const alphabet: string[] = [
   "A",
   "B",
   "C",

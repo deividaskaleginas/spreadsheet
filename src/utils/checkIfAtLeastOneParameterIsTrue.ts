@@ -1,14 +1,16 @@
-import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
+import {
+  CellFunctions,
+  CellObject,
+  ErrorMessage,
+  Sheet,
+} from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type OrParams = {
-  [x: string]: CellTypes;
-};
 export const checkIfAtLeastOneParameterIsTrue = (
   sheet: Sheet,
-  cellValue: OrParams
-) => {
+  cellValue: CellObject
+): boolean | string => {
   const sheetDataListsJoined = sheet.data.flat(1);
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),
@@ -20,7 +22,7 @@ export const checkIfAtLeastOneParameterIsTrue = (
   let isTrue;
 
   if (replacedData.some((item) => typeof item !== "boolean")) {
-    isTrue = "#ERROR: Incompatible types";
+    isTrue = ErrorMessage.INCOMPATIBLE_TYPES;
   } else if (replacedData.includes(true)) {
     isTrue = true;
   } else {

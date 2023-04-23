@@ -1,10 +1,13 @@
-import { RestructData, SheetData } from "../types/dataTypes";
+import { RestructuredData, SheetData } from "../types/dataTypes";
 import { alphabet } from "./alphabet";
 import { filterRestructuredDataFunctions } from "./filterRestructuredDataFunctions";
 
-export const restructureData = (data: SheetData[], submissionUrl: string) => {
+export const restructureData = (
+  data: SheetData[],
+  submissionUrl: string
+): SheetData[] | undefined => {
   if (data !== undefined) {
-    const restructData: RestructData = data.map((sheetData) => ({
+    const restructData: RestructuredData = data.map((sheetData) => ({
       id: sheetData.id,
       data: sheetData.data.map((item, i) =>
         item.map((element, index) => ({

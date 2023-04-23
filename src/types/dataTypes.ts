@@ -5,6 +5,11 @@ export interface SheetData {
   data: Array<Array<CellTypes>>;
 }
 
+export type CellObject = {
+  // NOTE: for replaced values e.g. {A1: '=B1'}
+  [x: string]: CellTypes;
+};
+
 export type SubmissionUrl = string;
 
 export interface SpreadSheetResponse {
@@ -12,38 +17,18 @@ export interface SpreadSheetResponse {
   submissionUrl: string;
 }
 
-export type RestructuredData = {
-  id: string;
-  data: { [x: string]: CellTypes }[][];
-}[];
-
-export type RestructData = {
-  id: string;
-  data: {
-    [x: string]: CellTypes;
-  }[][];
-}[];
-
 export type Sheet = {
   id: string;
-  data: {
-    [x: string]: CellTypes;
-  }[][];
+  data: CellObject[][];
 };
+
+export type RestructuredData = Sheet[];
 
 export type FuncData = CellTypes[];
 
 export type DataArray = {
   [x: string]: CellTypes;
 }[];
-
-export type SpreadSheetResults = {
-  id: string;
-  data: any[][];
-}[];
-
-//TODO: Alpabetically type for string
-export type SpreadSheetStructure = Record<string, CellTypes>;
 
 export enum CellFunctions {
   SUM = "=SUM",
@@ -58,6 +43,7 @@ export enum CellFunctions {
   CONCAT = "=CONCAT",
 }
 
-export interface ResultsBlockProps {
-  data: object[];
+export enum ErrorMessage {
+  INCOMPATIBLE_TYPES = "#ERROR: Incompatible types",
+  COMMON = "ERROR",
 }

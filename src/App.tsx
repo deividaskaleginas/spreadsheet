@@ -9,7 +9,7 @@ function App() {
   const [data, setData] = useState<SheetData[]>([]);
   const [submissionUrl, setSubmissionUrl] = useState<SubmissionUrl>("");
 
-  const cells = restructureData(data, submissionUrl);
+  const cells: SheetData[] = restructureData(data, submissionUrl) || [];
   const [sheetToShow, setSheetToShow] = useState<SheetData | undefined>(
     undefined
   );
@@ -18,7 +18,7 @@ function App() {
     getData(setData, setSubmissionUrl);
   }, []);
 
-  const handleSheetClick = (sheetId: string) => {
+  const handleSheetClick = (sheetId: string): void => {
     const filteredSheet: SheetData | undefined = cells?.find(
       ({ id }) => id === sheetId
     );
@@ -31,9 +31,9 @@ function App() {
     <div className="spreadsheet">
       <ResultsBlock data={sheetToShow?.data} />
       <div className="sheets-wrapper">
-        {cells?.map(({ id }) => (
+        {cells?.map(({ id }, index) => (
           <div
-            key={id}
+            key={id + index}
             onClick={() => handleSheetClick(id)}
             className="sheet-box"
           >

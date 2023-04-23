@@ -1,10 +1,7 @@
-import { CellTypes, Sheet } from "../types/dataTypes";
+import { CellObject, Sheet } from "../types/dataTypes";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type CellValue = {
-  [x: string]: CellTypes;
-};
-export const checkConditionals = (sheet: Sheet, cellValue: CellValue) => {
+export const checkConditionals = (sheet: Sheet, cellValue: CellObject) => {
   const sheetDataListsJoined = sheet.data.flat(1);
   const destructuredFunction: string[] = Object.values(cellValue)
     .toString()

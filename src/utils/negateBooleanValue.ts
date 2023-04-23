@@ -1,12 +1,11 @@
-import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
+import { CellFunctions, CellObject, Sheet } from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type NegateParams = {
-  [x: string]: CellTypes;
-};
-
-export const negateBooleanValue = (sheet: Sheet, cellValue: NegateParams) => {
+export const negateBooleanValue = (
+  sheet: Sheet,
+  cellValue: CellObject
+): boolean => {
   const sheetDataListsJoined = sheet.data.flat(1);
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),
