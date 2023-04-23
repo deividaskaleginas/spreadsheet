@@ -1,0 +1,51 @@
+.row {
+  display: flex;
+}
+
+.cell {
+  padding: 4px 0;
+  border-left: 1px solid rgb(197, 190, 190);
+  font-size: 12px;
+  min-width: 132px;
+  height: 22px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.rowHeaterDiv {
+  display: flex;
+}
+
+.rowHeaderCell:nth-last-child(-n + 1) {
+  border-right: 1px solid rgb(197, 190, 190);
+}
+
+.rowHeaderCell {
+  width: 60px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  border: 1px solid rgb(197, 190, 190);
+  border-right: none;
+}
+
+.flexWrapper {
+  display: flex;
+}
+
+.flexWrapper:nth-last-child(-n + 1) {
+  border-right: 1px solid rgb(197, 190, 190);
+}
+
+.columnNumber {
+  padding: 0 2px;
+  min-width: 20px;
+  height: 22px;
+  text-align: center;
+}
+
+.borderBottom {
+  border-bottom: 1px solid rgb(197, 190, 190);
+}
