@@ -15,7 +15,14 @@ export const calculateSumAndDestructureSheet = (
     CellFunctions.SUM
   );
   const replacedData = replaceStringsWithData(funcData, cellsToSum);
-  const sum = replacedData.reduce((a, b) => a + b);
+  const replacedElementsToNumbers = replacedData.map((element) => {
+    if (typeof element !== "number") {
+      return Number(element);
+    } else {
+      return element;
+    }
+  });
+  const sum = replacedElementsToNumbers.reduce((a, b) => a + b);
 
   return sum;
 };

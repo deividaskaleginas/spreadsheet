@@ -1,4 +1,4 @@
-import { CellFunctions, CellTypes } from "../types/dataTypes";
+import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
@@ -7,15 +7,24 @@ type AndParams = {
 };
 
 export const checkIfAllParametersAreTrue = (
-  cellsToCheck: AndParams[],
+  sheet: Sheet,
   cellValue: AndParams
 ) => {
+  const sheetDataListsJoined = sheet.data.flat(1);
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),
     CellFunctions.AND
   );
-  const replacedData = replaceStringsWithData(funcData, cellsToCheck);
+  const replacedData = replaceStringsWithData(funcData, sheetDataListsJoined);
 
-  const isTrue = replacedData.includes(false) ? false : true;
+  let isTrue;
+
+  if (replacedData.some((item) => typeof item !== "boolean")) {
+    isTrue = "#ERROR: Incompatible types";
+  } else if (replacedData.includes(false)) {
+    isTrue = false;
+  } else {
+    isTrue = true;
+  }
   return isTrue;
 };

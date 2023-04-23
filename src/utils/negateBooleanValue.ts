@@ -2,21 +2,17 @@ import { CellFunctions, CellTypes, Sheet } from "../types/dataTypes";
 import { destructureFunction } from "./destructureFunction";
 import { replaceStringsWithData } from "./replaceStringsWithData";
 
-type MultiplyParams = {
+type NegateParams = {
   [x: string]: CellTypes;
 };
 
-export const multiplySheetDataValues = (
-  sheet: Sheet,
-  cellValue: MultiplyParams
-) => {
+export const negateBooleanValue = (sheet: Sheet, cellValue: NegateParams) => {
   const sheetDataListsJoined = sheet.data.flat(1);
   const funcData = destructureFunction(
     Object.values(cellValue).toString(),
-    CellFunctions.MULTIPLY
+    CellFunctions.NOT
   );
   const replacedData = replaceStringsWithData(funcData, sheetDataListsJoined);
-  const multipliedValue = replacedData.reduce((a, b) => Number(a) * Number(b));
 
-  return multipliedValue;
+  return !replacedData[0];
 };

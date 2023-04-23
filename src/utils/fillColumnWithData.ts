@@ -12,6 +12,7 @@ export const fillColumnWithData = (sheet: Sheet, cellValue: FillParams) => {
   const sheetDataListsJoined = sheet.data.flat(
     1
   ) as unknown as CellStringType[];
+
   const removedEqualsFromObjectValues = sheetDataListsJoined.map((item) => {
     return {
       [Object.keys(item).toString()]:
@@ -21,23 +22,26 @@ export const fillColumnWithData = (sheet: Sheet, cellValue: FillParams) => {
     };
   });
 
-  const keyValuePairs: CellStringType = {};
-
-  removedEqualsFromObjectValues.forEach((obj: CellStringType) => {
-    Object.entries(obj).forEach(([key, value]) => {
-      if (keyValuePairs.hasOwnProperty(value)) {
-        obj[key] = keyValuePairs[value];
-      } else if (obj.hasOwnProperty(value)) {
-        obj[key] = obj[value];
+  const replaceValues = (arr: CellStringType[]) => {
+    const keys = arr.map((obj) => Object.keys(obj)[0]);
+    return arr.map((obj) => {
+      const key = Object.keys(obj)[0];
+      let value = obj[key];
+      while (keys.includes(value)) {
+        //   @ts-ignore
+        value = arr.find((o) => o.hasOwnProperty(value))[value];
       }
+      return { [key]: value };
     });
+  };
 
-    Object.entries(obj).forEach(([key, value]) => {
-      keyValuePairs[key] = value;
-    });
-  });
+  const replacedValuesOfSheetData = replaceValues(
+    removedEqualsFromObjectValues
+  );
 
-  const cellValueReplaced = keyValuePairs[Object.keys(cellValue)[0]];
+  const allValuesInOneObject = Object.assign({}, ...replacedValuesOfSheetData);
+
+  const cellValueReplaced = allValuesInOneObject[Object.keys(cellValue)[0]];
 
   return cellValueReplaced;
 };
